@@ -6,10 +6,12 @@ class MY_Controller extends CI_Controller{
         parent::__construct();
 
         $this->load->helper(array('url'));
-        
+        $this->load->library('session');
         // $this->load->library('encrypt');
 
         define('SITE',site_url());
+        define('API_URL',site_url('api/'));
+
         define('ASSETS_SITE',base_url('assets'));
         define('ASSETS_CSS',base_url('assets/css'));
         define('ASSETS_IMG',base_url('assets/img'));
@@ -18,7 +20,7 @@ class MY_Controller extends CI_Controller{
         define('ERROR_INVALID_MODE','Error mode is invalid!!');
     }
     
-    protected function render($template = '', $page_name = '', $content = null, $data = null, $assets_js = null){
+    protected function render($template = '', $page_name = '', $content = null, $data = null){
         switch($template){
             case 'normal_page':
                 $data_head['title'] = 'DCS-'.$page_name;
@@ -28,8 +30,7 @@ class MY_Controller extends CI_Controller{
                 $this->load->view('template/header');
                 
                 $this->load->view($content, $data);
-
-                $view["assets_js"] = !is_null($assets_js) ? $this->js_asset($assets_js) : '';
+                $this->load->view($content.'_js');
 
                 $this->load->view('template/footer');
                 $this->load->view('template/foot');
@@ -39,21 +40,19 @@ class MY_Controller extends CI_Controller{
                 $this->load->view('template/head', $data_head);
 
                 $this->load->view($content, $data);
-                $this->load->view('template/foot');
+                $this->load->view($content.'_js');
                 
-                $view["assets_js"] = !is_null($assets_js) ? $this->js_asset($assets_js) : '';
+                $this->load->view('template/foot');
                 break;
             case 'blank_page':
                 
                 $this->load->view($content, $data);
-
-                $view["assets_js"] = !is_null($assets_js) ? $this->js_asset($assets_js) : '';
+                $this->load->view($content.'_js');
                 break;
             default:
                 
                 $this->load->view($content, $data);
-
-                $view["assets_js"] = !is_null($assets_js) ? $this->js_asset($assets_js) : '';
+                $this->load->view($content.'_js');
                 break;
         }
     }

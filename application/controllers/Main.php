@@ -8,9 +8,16 @@ class Main extends MY_Controller {
 	}
 	
 	public function index(){
-		$view = null;
-		$this->render('login', 'เข้าสู่ระบบ','login', $view, '');
-		// page type, page name, address of view file, data, js of this page
+		if(!$this->session->user_logined){
+			$this->Auth();
+		}else{
+			// page type, page name, address of view file, data
+			$this->render('normal_page', 'หน้าแรก','Home/index', null);
+		}
 	}
 
+	public function Auth(){
+		// page type, page name, address of view file, data
+		$this->render('login', 'เข้าสู่ระบบ', 'Auth/login', null);
+	}
 }

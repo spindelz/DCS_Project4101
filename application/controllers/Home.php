@@ -8,9 +8,9 @@ class Home extends MY_Controller {
 	}
 	
 	public function index(){
-		$view = null;
-		$this->render('normal_page', 'หน้าแรก','Home/index', $view, '');
-		// page type, page name, address of view file, data, js of this page
+		
+		// page type, page name, address of view file, data
+		$this->render('normal_page', 'หน้าแรก','Home/index', null);
 	}
 
 }
