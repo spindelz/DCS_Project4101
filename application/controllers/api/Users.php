@@ -20,8 +20,7 @@ use Restserver\Libraries\REST_Controller;
  * @license         MIT
  * @link            https://github.com/chriskacerguis/codeigniter-restserver
  */
-class Users extends REST_Controller
-{
+class Users extends REST_Controller{
     /**
      *    [$default_language description]
      *    @var null
@@ -34,19 +33,17 @@ class Users extends REST_Controller
      */
     public $primary_key = 'ID';
 
-    public function __construct()
-    {
+    public function __construct(){
     	parent::__construct();
 
     	$this->load->model('users_model');
 	}
 	
-	public function getAll_get()
-    {
-		$key = $this->get();
-		$data = $this->users_model->getAll();
-		$this->response(empty($data) ? '' : $data, parent::HTTP_OK);
-	}
+	// public function getAll_get(){
+	// 	$key = $this->get();
+	// 	$data = $this->users_model->getAll();
+	// 	$this->response(empty($data) ? '' : $data, parent::HTTP_OK);
+	// }
     /**
      *    [index_get description]
      *    @author innosenz
@@ -57,8 +54,7 @@ class Users extends REST_Controller
      *    @param int $lang_id [Content culture.]
      *    @return      [type]        [description]
      */
-    public function index_get()
-    {
+    public function index_get(){
     	$data = array();
 
     	$limit   = 100;
@@ -70,9 +66,9 @@ class Users extends REST_Controller
 
     	/* Find in database*/
     	if ($this->get($this->primary_key)) {
-    		$data = $this->users_model->getByKey($this->get($this->primary_key), $this->get('lang_id'), $convert_display = true);
+    		$data = $this->users_model->getByKey($this->get($this->primary_key), $convert_display = true);
     	} else {
-    		$data = $this->users_model->getAll($limit, $offset, $lang_id, $convert_display = true);
+    		$data = $this->users_model->getAll($limit, $offset, $convert_display = true);
     	}
 
     	/* Response */
@@ -86,8 +82,7 @@ class Users extends REST_Controller
      *    @description [description]
      *    @return      [type]        [description]
      */
-    public function index_post()
-    {
+    public function index_post(){
     	$csrf_token_name = $this->config->item('csrf_token_name');
 
     	/*Read input*/

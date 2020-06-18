@@ -19,10 +19,17 @@ class MY_Controller extends CI_Controller{
 
         define('ERROR_INVALID_MODE','Error mode is invalid!!');
     }
+
+    private function checkAuth(){
+        if(!$this->session->user_logined){
+            redirect(SITE.'Auth/login');
+        }
+    }
     
     protected function render($template = '', $page_name = '', $content = null, $data = null){
         switch($template){
             case 'normal_page':
+                $this->checkAuth();
                 $data_head['title'] = 'DCS-'.$page_name;
                 $this->load->view('template/head', $data_head);
                 $this->load->view('template/sidebar');
@@ -45,12 +52,12 @@ class MY_Controller extends CI_Controller{
                 $this->load->view('template/foot');
                 break;
             case 'blank_page':
-                
+                $this->checkAuth();
                 $this->load->view($content, $data);
                 $this->load->view($content.'_js');
                 break;
             default:
-                
+                $this->checkAuth();
                 $this->load->view($content, $data);
                 $this->load->view($content.'_js');
                 break;

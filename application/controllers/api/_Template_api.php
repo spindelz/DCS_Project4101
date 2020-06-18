@@ -9,8 +9,7 @@ require_once APPPATH . 'libraries/REST_Controller.php';
 
 use Restserver\Libraries\REST_Controller;
 
-class [Name] extends REST_Controller
-{
+class [Name] extends REST_Controller{
     /**
      *    [$default_language description]
      *    @var null
@@ -23,8 +22,7 @@ class [Name] extends REST_Controller
      */
     public $primary_key = '[PrimaryKey]';
 
-    public function __construct()
-    {
+    public function __construct(){
     	parent::__construct();
 
     	$this->load->model('[ModelName]');
@@ -39,8 +37,7 @@ class [Name] extends REST_Controller
      *    @param int $lang_id [Content culture.]
      *    @return      [type]        [description]
      */
-    public function index_get()
-    {
+    public function index_get(){
     	$data = array();
 
     	$limit   = 100;
@@ -68,8 +65,7 @@ class [Name] extends REST_Controller
      *    @description [description]
      *    @return      [type]        [description]
      */
-    public function index_post()
-    {
+    public function index_post(){
     	$csrf_token_name = $this->config->item('csrf_token_name');
 
     	/*Read input*/
@@ -102,8 +98,7 @@ class [Name] extends REST_Controller
      *    @description [description]
      *    @return      [type]        [description]
      */
-    public function index_put()
-    {
+    public function index_put(){
     	$csrf_token_name = $this->config->item('csrf_token_name');
 
     	/*Read input*/
@@ -139,8 +134,7 @@ class [Name] extends REST_Controller
      *    @description [description]
      *    @return      [type]        [description]
      */
-    public function index_delete()
-    {
+    public function index_delete(){
     	$result = array();
 
     	/*Read input*/
@@ -173,8 +167,7 @@ class [Name] extends REST_Controller
      *    @description [description]
      *    @return      [type]        [description]
      */
-    public function ajax_list_post()
-    {
+    public function ajax_list_post(){
     	/* Declare variables */
     	$debug = '';
     	$list  = array();
@@ -213,38 +206,6 @@ class [Name] extends REST_Controller
     		"debug"           => $debug,
     		);
     	$this->response($output, parent::HTTP_OK);
-    }
-
-    /**
-     *    [ajax_copy_post description]
-     *    @author innosenz
-     *    @date        2017-05-16
-     *    @description [description]
-     *    @return      [type]        [description]
-     */
-    public function ajax_copy_post()
-    {
-    	$input = $this->input->post();
-
-    	$this->[ModelName]->copy($input, $input['LanguageID']);
-    }
-
-    /**
-     *    [language_get description]
-     *    @author innosenz
-     *    @date        2017-05-19
-     *    @description [description]
-     *    @return      [type]        [description]
-     */
-    public function language_get()
-    {
-    	$[PrimaryKey] = $this->get('[PrimaryKey]');
-    	$lang_id      = $this->get('lang_id');
-
-    	$data = $this->[ModelName]->getByLanguage($[PrimaryKey], $lang_id);
-
-    	/* Response */
-    	$this->response(empty($data) ? '' : $data, parent::HTTP_OK);
     }
 
     # Custom functions

@@ -54,9 +54,6 @@ class [Name]_model extends MY_Model
      */
     private function _get_datatables_query($criteria = array())
     {
-    	$temp_id = $this->session->userdata('site_id');
-    	$site_id = !empty($temp_id) ? $temp_id : "0";
-
     	$this->_setFrom();
 
     	/* Insert filter here*/
@@ -79,23 +76,15 @@ class [Name]_model extends MY_Model
     	$this->_setColumnSelect();
 
     	/* Order */
-    	if (isset($_POST['order'])) {
-    		$order_column_index = $_POST['order']['0']['column'];
-    		$order_dir          = $_POST['order']['0']['dir'];
-    		$order_column       = $_POST['columns'][$order_column_index]['name'];
-
-    		$this->db->order_by($order_column, $order_dir);
-    	} else {
-            $this->db->order_by('[TableName].[Column1]', 'asc');
-        }
+    	$this->db->order_by($this->primary_key, 'asc');
 
         if ($_POST['length'] != -1) {
-          $this->db->limit($_POST['length'], $_POST['start']);
-      }
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
 
-      $query = $this->db->get();
+        $query = $this->db->get();
 
-      return $query->result_array();
+        return $query->result_array();
   }
 
     /**

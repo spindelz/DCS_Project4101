@@ -1,17 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/**
- *  This file generate from tools.
- */
 
-class Users_model extends MY_Model
-{
+class Users_model extends MY_Model{
     /*
      *    Set table name for query builder
      *    Required
      */
-    public $table_name = 'Users';
+    public $table_name = 'users';
 
     /*
      *    Set primary key for query builder
@@ -54,16 +50,13 @@ class Users_model extends MY_Model
      */
     private function _get_datatables_query($criteria = array())
     {
-    	// $temp_id = $this->session->userdata('site_id');
-    	// $site_id = !empty($temp_id) ? $temp_id : "0";
-
-        // $this->_setFrom();
-        $this->db->from('users');
+        $this->_setFrom();
+        // $this->db->join('table','clause','left')
 
     	/* Insert filter here*/
-    	// if (array_key_exists('keyword', $criteria) && !empty($criteria['keyword'])) {
-    	// 	$this->db->like("Users.ID", $criteria['keyword']);
-    	// }
+    	if (array_key_exists('keyword', $criteria) && !empty($criteria['keyword'])) {
+    		$this->db->like("Users.ID", $criteria['keyword']);
+    	}
     }
 
     /**
@@ -77,27 +70,18 @@ class Users_model extends MY_Model
     {
     	$this->_get_datatables_query($criteria);
 
-        $this->_setColumnSelect();
         $this->db->select('*');
 
     	/* Order */
-    	if (isset($_POST['order'])) {
-    		$order_column_index = $_POST['order']['0']['column'];
-    		$order_dir          = $_POST['order']['0']['dir'];
-    		$order_column       = $_POST['columns'][$order_column_index]['name'];
+    	$this->db->order_by($this->primary_key, 'asc');
 
-    		$this->db->order_by($order_column, $order_dir);
-    	} else {
-            $this->db->order_by('Users.ID', 'asc');
-        }
+        // if ($_POST['length'] != -1) {
+        //     $this->db->limit($_POST['length'], $_POST['start']);
+        // }
 
-        if ($_POST['length'] != -1) {
-          $this->db->limit($_POST['length'], $_POST['start']);
-      }
+        $query = $this->db->get();
 
-      $query = $this->db->get();
-
-      return $query->result_array();
+        return $query->result_array();
     }
 
     /**
@@ -143,13 +127,13 @@ class Users_model extends MY_Model
     }
 
     #Custom functions
-    public function getAll()
-    {
-        $this->db->select('*');
-        $this->db->from('users');
+    // public function getAll()
+    // {
+    //     $this->_setColumnSelect();
+    //     $this->_setFrom();
 
-        return $this->db->get()->result_array();
-    }
+    //     return $this->db->get()->result_array();
+    // }
 }
 
 /* End of file Users_model.php */
